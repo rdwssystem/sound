@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RDW - Katalog Produk Sound System Profesional</title>
+<style>
+  /* Reset and base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #121212;
+    color: #e0e0e0;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  /* Container with breathing room */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 16px 48px 16px;
+    flex: 1 0 auto;
+  }
+  header {
+    background: linear-gradient(135deg, #4b0082 0%, #00bfa5 100%);
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header .logo {
+    font-weight: 900;
+    font-size: 28px;
+    background: linear-gradient(135deg, #e040fb, #00bfa5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+  }
+  header nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  header nav input[type="search"] {
+    width: 220px;
+    max-width: 100%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    transition: box-shadow 0.3s ease;
+  }
+  header nav input[type="search"]:focus {
+    box-shadow: 0 0 8px 2px #00bfa5;
+  }
+  main {
+    padding-top: 32px;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 32px;
+    text-align: center;
+    background: linear-gradient(135deg, #e040fb, #00bfa5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  /* Grid for product cards */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+  }
+  .card {
+    background: rgba(255 255 255 / 0.08);
+    border-radius: 16px;
+    padding: 24px 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+  .card:hover, .card:focus-within {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0, 191, 165, 0.6);
+  }
+  .card img {
+    max-width: 100%;
+    max-height: 180px;
+    border-radius: 12px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    background: #262626;
+  }
+  .card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .card p {
+    font-size: 1rem;
+    color: #b0bec5;
+    text-align: center;
+    user-select: text;
+  }
+  footer {
+    background: #1a1a1a;
+    color: #606060;
+    padding: 24px 16px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  /* Modal styles */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: 24px;
+  }
+  .modal-overlay.show {
+    display: flex;
+  }
+  .modal {
+    background: #181818;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0,191,165,0.8);
+    padding: 24px 32px;
+    color: #e0e0e0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .modal img {
+    max-width: 100%;
+    border-radius: 14px;
+    object-fit: contain;
+    box-shadow: 0 16px 32px rgba(0,191,165,0.5);
+  }
+  .modal h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #e040fb, #00bfa5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .modal p.description {
+    font-size: 1rem;
+    color: #b0bec5;
+    white-space: pre-wrap;
+  }
+  .modal .btn-order {
+    background: linear-gradient(135deg, #00bfa5, #e040fb);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    color: #121212;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    width: 100%;
+  }
+  .modal .btn-order:hover, .modal .btn-order:focus {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px #00bfa5;
+    outline: none;
+  }
+  .modal .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    color: #b0bec5;
+    cursor: pointer;
+    user-select: none;
+  }
+  .modal .close-btn:hover, .modal .close-btn:focus {
+    color: #00bfa5;
+    outline: none;
+  }
+  /* Responsive header nav for mobile */
+  @media (max-width: 640px) {
+    header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    header .logo {
+      font-size: 24px;
+    }
+    header nav {
+      width: 100%;
+      gap: 12px;
+    }
+    header nav input[type="search"] {
+      width: 100%;
+    }
+    .modal {
+      padding: 16px 24px;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" tabindex="0" aria-label="Logo RDW Sound System Profesional">RDW</div>
+  <nav role="search">
+    <input type="search" id="search" name="search" aria-label="Cari produk sound system" placeholder="Cari produk..." />
+  </nav>
+</header>
+<main class="container" id="main-content">
+  <h1>Katalog Produk Sound System Profesional RDW</h1>
+  <section aria-label="Daftar produk sound system" class="product-grid" id="product-grid">
+    <!-- Product cards inserted by script -->
+  </section>
+</main>
+<footer>
+  &copy; 2024 RDW Sound System Profesional - Semua hak cipta dilindungi.
+</footer>
+
+<!-- Modal for product detail -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+  <div class="modal" tabindex="-1">
+    <button class="close-btn" id="modal-close-btn" aria-label="Tutup deskripsi produk">&times;</button>
+    <img src="" alt="" id="modal-image" />
+    <h2 id="modal-title"></h2>
+    <p class="description" id="modal-desc"></p>
+    <button class="btn-order" id="order-btn">Pesan via WhatsApp</button>
+  </div>
+</div>
+
+<script>
+  // ====== PRODUK SOUND SYSTEM ======
+  // Ubah data produk berikut untuk mengganti gambar dan deskripsi produk
+  // Gambar diganti pada properti 'image' dengan URL gambar valid
+  // Deskripsi produk diganti pada properti 'description'
+  const products = [
+    {
+      name: "Speaker Aktif RDW Pro A12",
+      // Ganti URL gambar sesuai kebutuhan, gunakan link gambar eksternal atau placeholder valid
+      image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/566bc979-c31d-4560-8b65-311ee5de2593.png",
+      alt: "Speaker aktif hitam modern untuk acara profesional",
+      // Ganti deskripsi produk di sini
+      description: "Speaker aktif dengan kualitas audio jernih dan bass yang dalam, cocok untuk acara profesional.\n\nFitur utama:\n- Output 1000W\n- Driver 12 inci\n- Input XLR dan RCA"
+    },
+    {
+      name: "Subwoofer RDW BassMax 18\"",
+      image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5c4a81e4-4118-40c5-9175-62c962338832.png",
+      alt: "Subwoofer bass besar hitam berdesain modern",
+      description: "Subwoofer berukuran 18 inci dengan suara bass yang kuat dan presisi untuk pengalaman audio optimal.\n\nFitur utama:\n- Output 1500W\n- Frekuensi respon hingga 40Hz\n- Desain kabinet tahan getar"
+    },
+    {
+      name: "Mixer Audio RDW MX500",
+      image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3afe7319-8c54-4157-8f50-13b7acf45cc3.png",
+      alt: "Mixer audio hitam profesional dengan knob dan fader",
+      description: "Mixer dengan 8 channel input, desain ergonomic dan fitur lengkap untuk kontrol audio profesional.\n\nFitur utama:\n- 8 mic/line input\n- Equalizer 3 band\n- Output stereo"
+    },
+    {
+      name: "Microphone Wireless RDW WM100",
+      image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/601ef558-6f6c-4f14-bb91-900c50232479.png",
+      alt: "Microphone wireless hitam modern",
+      description: "Microphone wireless dengan jangkauan hingga 100m, kualitas suara jernih tanpa kabel.\n\nFitur utama:\n- Frekuensi 863-865 MHz\n- Daya tahan baterai 8 jam\n- Sistem anti gangguan"
+    },
+    {
+      name: "Speaker Pasif RDW Classic 10\"",
+      image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bbf5a851-2f96-4320-9b81-c4dc20c8d12c.png",
+      alt: "Speaker pasif hitam dengan desain klasik",
+      description: "Speaker pasif 10 inci dengan karakter suara natural dan desain klasik elegan.\n\nFitur utama:\n- Impedansi 8 Ohm\n- Daya maksimum 200W\n- Respons frekuensi luas"
+    },
+    {
+      name: "Power Amplifier RDW PA700",
+      image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7242c223-3161-427d-bc4a-1dd6a41a619f.png",
+      alt: "Power amplifier hitam compact",
+      description: "Power amplifier dengan daya output 700 watt, stabil dan tahan lama untuk berbagai kebutuhan.\n\nFitur utama:\n- Output 700W RMS\n- Proteksi overload\n- Pendingin efisien"
+    }
+  ];
+      name: "Power Amplifier RDW PA700",
+      image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7242c223-3161-427d-bc4a-1dd6a41a619f.png",
+      alt: "Power amplifier hitam compact",
+      description: "Power amplifier dengan daya output 700 watt, stabil dan tahan lama untuk berbagai kebutuhan.\n\nFitur utama:\n- Output 700W RMS\n- Proteksi overload\n- Pendingin efisien"
+    }
+  ];
+
+  // Referensi elemen DOM utama
+  const productGrid = document.getElementById('product-grid');
+  const searchInput = document.getElementById('search');
+
+  // Modal dan elemennya
+  const modalOverlay = document.getElementById('modal-overlay');
+  const modalImage = document.getElementById('modal-image');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-desc');
+  const orderBtn = document.getElementById('order-btn');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+
+  // Nomor WhatsApp penjual (ubah nomor jika perlu)
+  const whatsappNumber = "6281229851775";
+
+  /* Fungsi: render produk ke grid 
+   * @param filter string kata kunci pencarian
+  */
+  function renderProducts(filter = '') {
+    const normalizedFilter = filter.toLowerCase();
+    const filteredProducts = products.filter(prod =>
+      prod.name.toLowerCase().includes(normalizedFilter) ||
+      prod.description.toLowerCase().includes(normalizedFilter)
+    );
+    productGrid.innerHTML = '';
+    if (filteredProducts.length === 0) {
+      productGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#ff5252;font-weight:700;">Produk tidak ditemukan.</p>';
+      return;
+    }
+    filteredProducts.forEach(({name, description, image, alt}, index) => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.tabIndex = 0;
+      card.setAttribute('role','button');
+      card.setAttribute('aria-pressed','false');
+      card.setAttribute('aria-label',`Lihat detail ${name}`);
+      card.innerHTML = `
+        <img src="${image}" alt="${alt}" loading="lazy" />
+        <h2>${name}</h2>
+        <p>${description.split('\\n')[0]}</p>
+      `;
+      // Event klik dan keyboard "Enter"/"Space" untuk membuka modal detail produk
+      card.addEventListener('click', () => openProductDetail(index));
+      card.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openProductDetail(index);
+        }
+      });
+      productGrid.appendChild(card);
+    });
+  }
+
+  /**
+   * Fungsi buka modal detail produk
+   * @param index nomor indeks produk di array products
+   */
+  function openProductDetail(index) {
+    const product = products[index];
+    if(!product) return;
+    modalImage.src = product.image;
+    modalImage.alt = product.alt;
+    modalTitle.textContent = product.name;
+    // Menggunakan pre-wrap di CSS, jadi kita bisa pakai \n dalam description
+    modalDesc.textContent = product.description + "\n\nUntuk pemesanan, silakan klik tombol di bawah untuk menghubungi WhatsApp penjual.";
+    // Kaitkan tombol order ke WhatsApp dengan teks pesan otomatis
+    const msg = encodeURIComponent(`Halo, saya ingin memesan produk *${product.name}* dari RDW. Mohon info lebih lanjut.`);
+    orderBtn.onclick = () => {
+      window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank', 'noopener');
+    };
+    // Tampilkan modal dan fokus close button
+    modalOverlay.classList.add('show');
+    modalCloseBtn.focus();
+    // Ganti aria-pressed tombol produk (optional)
+  }
+
+  /**
+   * Fungsi tutup modal
+   */
+  function closeProductDetail() {
+    modalOverlay.classList.remove('show');
+    // Kembalikan fokus ke search input untuk UX baik
+    searchInput.focus();
+  }
+
+  // Event tombol close modal
+  modalCloseBtn.addEventListener('click', closeProductDetail);
+
+  // Tutup modal dengan ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape" && modalOverlay.classList.contains('show')) {
+      closeProductDetail();
+    }
+  });
+
+  // Tutup modal saat klik di luar modal
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) {
+      closeProductDetail();
+    }
+  });
+
+  // Event untuk filter cari produk
+  searchInput.addEventListener('input', e => {
+    renderProducts(e.target.value);
+  });
+
+  // Render awal semua produk
+  renderProducts();
+</script>
+</body>
+</html>
+
