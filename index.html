@@ -38,6 +38,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
   }
   header .logo {
     font-weight: 900;
@@ -46,6 +48,18 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     user-select: none;
+    flex: 1 0 auto;
+  }
+  header nav {
+    flex: 1 1 280px;
+  }
+  header nav input[type="search"] {
+    width: 100%;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    font-size: 16px;
   }
   main {
     padding-top: 32px;
@@ -209,6 +223,9 @@
 <body>
 <header>
   <div class="logo" tabindex="0" aria-label="Logo RDW Sound System Profesional">RDW</div>
+  <nav>
+    <input type="search" id="search-input" placeholder="Cari produk..." aria-label="Cari produk" />
+  </nav>
 </header>
 <main class="container" id="main-content">
   <h1>Katalog Produk Sound System Profesional RDW</h1>
@@ -229,7 +246,6 @@
 </div>
 
 <script>
-  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyAya-7QEtbflW7jh_EoPclFBQ43VnrKZrM",
     authDomain: "rdw-katalog.firebaseapp.com",
@@ -251,29 +267,22 @@
   const modalDesc = document.getElementById('modal-desc');
   const orderBtn = document.getElementById('order-btn');
   const modalCloseBtn = document.getElementById('modal-close-btn');
+  const searchInput = document.getElementById('search-input');
 
   const whatsappNumber = '6281229851775';
 
+  let allProducts = [];
+
   function escapeHTML(text) {
-    return text.replace(/[&<>"']/g, (m) => {
+    return text.replace(/[&<>"']/g, m => {
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
     });
   }
 
-  // Load products from Firebase Realtime Database
-  function loadProducts() {
-    // Listen for value changes to products node
-    database.ref('products').on('value', snapshot => {
-      const products = snapshot.val() || {};
-      renderProducts(Object.values(products));
-    });
-  }
-
-  // Render products into grid
   function renderProducts(products) {
     productGrid.innerHTML = '';
     if (products.length === 0) {
-      productGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#ff5252;font-weight:700;">Belum ada produk tersedia.</p>';
+      productGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#ff5252;font-weight:700;">Produk tidak ditemukan.</p>';
       return;
     }
     products.forEach(product => {
@@ -286,7 +295,7 @@
       card.innerHTML = `
         <img src="${product.image || ''}" alt="${escapeHTML(product.alt || '')}" loading="lazy" />
         <h2>${escapeHTML(product.name || '')}</h2>
-        <p>${escapeHTML((product.description||'').split('\n')[0])}</p>
+        <p>${escapeHTML((product.description||'').split('\\n')[0])}</p>
       `;
       card.addEventListener('click', () => openProductDetail(product));
       card.addEventListener('keydown', e => {
@@ -313,7 +322,6 @@
     modalCloseBtn.focus();
   }
 
-  // Close modal
   modalCloseBtn.onclick = () => modalOverlay.classList.remove('show');
   modalOverlay.addEventListener('click', (e) => {
     if(e.target === modalOverlay) modalOverlay.classList.remove('show');
@@ -324,16 +332,38 @@
     }
   });
 
-  // Visitor stats increment & display
-  function incrementVisitCount() {
-    const visitRef = database.ref('stats/visits');
-    visitRef.transaction(current => (current || 0) + 1);
+  // Load and listen products from Firebase
+  function loadProducts() {
+    const productsRef = database.ref('products');
+    productsRef.on('value', snapshot => {
+      const productsObj = snapshot.val() || {};
+      allProducts = Object.values(productsObj);
+      filterAndRender(searchInput.value);
+    });
   }
 
-  loadProducts();
-  incrementVisitCount();
+  function filterAndRender(query) {
+    const normalized = query.trim().toLowerCase();
+    if(normalized === '') {
+      renderProducts(allProducts);
+    } else {
+      const filtered = allProducts.filter(p => {
+        return (p.name && p.name.toLowerCase().includes(normalized)) ||
+               (p.description && p.description.toLowerCase().includes(normalized));
+      });
+      renderProducts(filtered);
+    }
+  }
 
+  searchInput.addEventListener('input', e => {
+    filterAndRender(e.target.value);
+  });
+
+  // Increment visit counts
+  const visitRef = database.ref('stats/visits');
+  visitRef.transaction(current => (current || 0) + 1);
+
+  loadProducts();
 </script>
 </body>
 </html>
-
