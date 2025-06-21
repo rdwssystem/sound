@@ -1,384 +1,384 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RDW - Katalog Produk Sound System Profesional</title>
-<style>
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #121212;
-    color: #e0e0e0;
-    line-height: 1.6;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 24px 16px 48px 16px;
-    flex: 1 0 auto;
-  }
-  header {
-    background: linear-gradient(135deg, #4b0082 0%, #00bfa5 100%);
-    padding: 16px 24px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  header .logo {
-    font-weight: 900;
-    font-size: 28px;
-    background: linear-gradient(135deg, #e040fb, #00bfa5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    user-select: none;
-    flex: 1 0 auto;
-  }
-  header nav {
-    flex: 1 1 280px;
-  }
-  header nav input[type="search"] {
-    width: 100%;
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    font-size: 16px;
-  }
-  main {
-    padding-top: 32px;
-  }
-  h1 {
-    font-size: 3rem;
-    font-weight: 900;
-    margin-bottom: 32px;
-    text-align: center;
-    background: linear-gradient(135deg, #e040fb, #00bfa5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 32px;
-  }
-  .card {
-    background: rgba(255 255 255 / 0.08);
-    border-radius: 16px;
-    padding: 24px 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-  }
-  .card:hover, .card:focus-within {
-    transform: translateY(-8px);
-    box-shadow: 0 16px 48px rgba(0, 191, 165, 0.6);
-  }
-  .card img {
-    max-width: 100%;
-    max-height: 180px;
-    border-radius: 12px;
-    object-fit: contain;
-    margin-bottom: 20px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-    background: #262626;
-  }
-  .card h2 {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-    text-align: center;
-  }
-  .card p {
-    font-size: 1rem;
-    color: #b0bec5;
-    text-align: center;
-    user-select: text;
-  }
-  footer {
-    background: #1a1a1a;
-    color: #606060;
-    padding: 24px 16px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-  /* Modal styles */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    padding: 24px;
-  }
-  .modal-overlay.show {
-    display: flex;
-  }
-  .modal {
-    background: #181818;
-    border-radius: 16px;
-    max-width: 600px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 32px 80px rgba(0,191,165,0.8);
-    padding: 24px 32px;
-    color: #e0e0e0;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .modal img {
-    max-width: 100%;
-    border-radius: 14px;
-    object-fit: contain;
-    box-shadow: 0 16px 32px rgba(0,191,165,0.5);
-  }
-  .modal h2 {
-    margin-top: 0;
-    font-size: 2rem;
-    background: linear-gradient(135deg, #e040fb, #00bfa5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .modal p.description {
-    font-size: 1rem;
-    color: #b0bec5;
-    white-space: pre-wrap;
-  }
-  .modal .btn-order {
-    background: linear-gradient(135deg, #00bfa5, #e040fb);
-    border: none;
-    padding: 14px 28px;
-    border-radius: 12px;
-    color: #121212;
-    font-weight: 700;
-    font-size: 1.1rem;
-    cursor: pointer;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    user-select: none;
-    width: 100%;
-  }
-  .modal .btn-order:hover, .modal .btn-order:focus {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px #00bfa5;
-    outline: none;
-  }
-  .modal .close-btn {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: transparent;
-    border: none;
-    font-size: 28px;
-    color: #b0bec5;
-    cursor: pointer;
-    user-select: none;
-  }
-  .modal .close-btn:hover, .modal .close-btn:focus {
-    color: #00bfa5;
-    outline: none;
-  }
-  @media (max-width: 640px) {
-    header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-    }
-    header .logo {
-      font-size: 24px;
-    }
-    header nav {
-      width: 100%;
-      gap: 12px;
-    }
-    h1 {
-      font-size: 2.5rem; /* Ukuran font lebih kecil untuk mobile */
-    }
-    .card h2 {
-      font-size: 1.25rem; /* Ukuran font judul lebih kecil untuk mobile */
-    }
-    .card p {
-      font-size: 0.9rem; /* Ukuran font deskripsi lebih kecil untuk mobile */
-    }
-    .modal h2 {
-      font-size: 1.5rem; /* Ukuran font judul modal lebih kecil untuk mobile */
-    }
-    .modal .btn-order {
-      font-size: 1rem; /* Ukuran font tombol lebih kecil untuk mobile */
-    }
-  }
-</style>
-<!-- Add Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RDW - Katalog Produk Sound System Profesional</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 16px 48px 16px;
+            flex: 1 0 auto;
+        }
+        header {
+            background: linear-gradient(135deg, #4b0082 0%, #00bfa5 100%);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        header .logo {
+            font-weight: 900;
+            font-size: 28px;
+            background: linear-gradient(135deg, #e040fb, #00bfa5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            user-select: none;
+            flex: 1 0 auto;
+        }
+        header nav {
+            flex: 1 1 280px;
+        }
+        header nav input[type="search"] {
+            width: 100%;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        main {
+            padding-top: 32px;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 32px;
+            text-align: center;
+            background: linear-gradient(135deg, #e040fb, #00bfa5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        .card:hover, .card:focus-within {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0, 191, 165, 0.6);
+        }
+        .card img {
+            max-width: 100%;
+            max-height: 180px;
+            border-radius: 12px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            background: #262626;
+        }
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .card p {
+            font-size: 1rem;
+            color: #b0bec5;
+            text-align: center;
+            user-select: text;
+        }
+        footer {
+            background: #1a1a1a;
+            color: #606060;
+            padding: 24px 16px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 24px;
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal {
+            background: #181818;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 32px 80px rgba(0,191,165,0.8);
+            padding: 24px 32px;
+            color: #e0e0e0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .modal img {
+            max-width: 100%;
+            border-radius: 14px;
+            object-fit: contain;
+            box-shadow: 0 16px 32px rgba(0,191,165,0.5);
+        }
+        .modal h2 {
+            margin-top: 0;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #e040fb, #00bfa5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .modal p.description {
+            font-size: 1rem;
+            color: #b0bec5;
+            white-space: pre-wrap;
+        }
+        .modal .btn-order {
+            background: linear-gradient(135deg, #00bfa5, #e040fb);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            color: #121212;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            user-select: none;
+            width: 100%;
+        }
+        .modal .btn-order:hover, .modal .btn-order:focus {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px #00bfa5;
+            outline: none;
+        }
+        .modal .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            font-size: 28px;
+            color: #b0bec5;
+            cursor: pointer;
+            user-select: none;
+        }
+        .modal .close-btn:hover, .modal .close-btn:focus {
+            color: #00bfa5;
+            outline: none;
+        }
+        @media (max-width: 640px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            header .logo {
+                font-size: 24px;
+            }
+            header nav {
+                width: 100%;
+                gap: 12px;
+            }
+            h1 {
+                font-size: 2.5rem; /* Ukuran font lebih kecil untuk mobile */
+            }
+            .card h2 {
+                font-size: 1.25rem; /* Ukuran font judul lebih kecil untuk mobile */
+            }
+            .card p {
+                font-size: 0.9rem; /* Ukuran font deskripsi lebih kecil untuk mobile */
+            }
+            .modal h2 {
+                font-size: 1.5rem; /* Ukuran font judul modal lebih kecil untuk mobile */
+            }
+            .modal .btn-order {
+                font-size: 1rem; /* Ukuran font tombol lebih kecil untuk mobile */
+            }
+        }
+    </style>
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
-<header>
-  <div class="logo" tabindex="0" aria-label="Logo RDW Sound System Profesional">RDW</div>
-  <nav>
-    <input type="search" id="search-input" placeholder="Cari produk..." aria-label="Cari produk" />
-  </nav>
-</header>
-<main class="container" id="main-content">
-  <h1>Katalog Produk Sound System Profesional RDW</h1>
-  <section aria-label="Daftar produk sound system" class="product-grid" id="product-grid"></section>
-</main>
-<footer>
-  &copy; 2024 RDW Sound System Profesional - Semua hak cipta dilindungi.
-</footer>
+    <header>
+        <div class="logo" tabindex="0" aria-label="Logo RDW Sound System Profesional">RDW</div>
+        <nav>
+            <input type="search" id="search-input" placeholder="Cari produk..." aria-label="Cari produk" />
+        </nav>
+    </header>
+    <main class="container" id="main-content">
+        <h1>Katalog Produk Sound System Profesional RDW</h1>
+        <section aria-label="Daftar produk sound system" class="product-grid" id="product-grid"></section>
+    </main>
+    <footer>
+        &copy; 2024 RDW Sound System Profesional - Semua hak cipta dilindungi.
+    </footer>
 
-<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
-  <div class="modal" tabindex="-1">
-    <button class="close-btn" id="modal-close-btn" aria-label="Tutup deskripsi produk">&times;</button>
-    <img src="" alt="" id="modal-image" />
-    <h2 id="modal-title"></h2>
-    <p class="description" id="modal-desc"></p>
-    <button class="btn-order" id="order-btn">Pesan via WhatsApp</button>
-  </div>
-</div>
+    <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+        <div class="modal" tabindex="-1">
+            <button class="close-btn" id="modal-close-btn" aria-label="Tutup deskripsi produk">&times;</button>
+            <img src="" alt="" id="modal-image" />
+            <h2 id="modal-title"></h2>
+            <p class="description" id="modal-desc"></p>
+            <button class="btn-order" id="order-btn">Pesan via WhatsApp</button>
+        </div>
+    </div>
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyAya-7QEtbflW7jh_EoPclFBQ43VnrKZrM",
-    authDomain: "rdw-katalog.firebaseapp.com",
-    databaseURL: "https://rdw-katalog-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "rdw-katalog",
-    storageBucket: "rdw-katalog.firebasestorage.app",
-    messagingSenderId: "506572005524",
-    appId: "1:506572005524:web:43b7d27f2c33a1d4071481",
-    measurementId: "G-BDQXKFERCR"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAya-7QEtbflW7jh_EoPclFBQ43VnrKZrM",
+            authDomain: "rdw-katalog.firebaseapp.com",
+            databaseURL: "https://rdw-katalog-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "rdw-katalog",
+            storageBucket: "rdw-katalog.firebasestorage.app",
+            messagingSenderId: "506572005524",
+            appId: "1:506572005524:web:43b7d27f2c33a1d4071481",
+            measurementId: "G-BDQXKFERCR"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-  const productGrid = document.getElementById('product-grid');
-  const modalOverlay = document.getElementById('modal-overlay');
-  const modalImage = document.getElementById('modal-image');
-  const modalTitle = document.getElementById('modal-title');
-  const modalDesc = document.getElementById('modal-desc');
-  const orderBtn = document.getElementById('order-btn');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-  const searchInput = document.getElementById('search-input');
+        const productGrid = document.getElementById('product-grid');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalImage = document.getElementById('modal-image');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const orderBtn = document.getElementById('order-btn');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const searchInput = document.getElementById('search-input');
 
-  const whatsappNumber = '6281229851775';
+        const whatsappNumber = '6281229851775';
 
-  let allProducts = [];
+        let allProducts = [];
 
-  function escapeHTML(text) {
-    return text.replace(/[&<>"']/g, m => {
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
-    });
-  }
-
-  function renderProducts(products) {
-    productGrid.innerHTML = '';
-    if (products.length === 0) {
-      productGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#ff5252;font-weight:700;">Produk tidak ditemukan.</p>';
-      return;
-    }
-    products.forEach(product => {
-      const card = document.createElement('article');
-      card.className = 'card';
-      card.tabIndex = 0;
-      card.setAttribute('role', 'button');
-      card.setAttribute('aria-pressed', 'false');
-      card.setAttribute('aria-label', `Lihat detail ${product.name || ''}`);
-      card.innerHTML = `
-        <img src="${product.image || ''}" alt="${escapeHTML(product.alt || '')}" loading="lazy" />
-        <h2>${escapeHTML(product.name || '')}</h2>
-        <p>${escapeHTML((product.description||'').split('\\n')[0])}</p>
-      `;
-      card.addEventListener('click', () => openProductDetail(product));
-      card.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openProductDetail(product);
+        function escapeHTML(text) {
+            return text.replace(/[&<>"']/g, m => {
+                return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+            });
         }
-      });
-      productGrid.appendChild(card);
-    });
-  }
 
-  // Open modal with product details
-  function openProductDetail(product) {
-    modalImage.src = product.image || '';
-    modalImage.alt = product.alt || '';
-    modalTitle.textContent = product.name || '';
-    modalDesc.textContent = (product.description || '') + "\n\nUntuk pemesanan, silakan klik tombol di bawah untuk menghubungi WhatsApp penjual.";
-    const msg = encodeURIComponent(`Halo, saya ingin memesan produk *${product.name}* dari RDW. Mohon info lebih lanjut.`);
-    orderBtn.onclick = () => {
-      window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank', 'noopener');
-    };
-    modalOverlay.classList.add('show');
-    modalCloseBtn.focus();
-  }
+        function renderProducts(products) {
+            productGrid.innerHTML = '';
+            if (products.length === 0) {
+                productGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#ff5252;font-weight:700;">Produk tidak ditemukan.</p>';
+                return;
+            }
+            products.forEach(product => {
+                const card = document.createElement('article');
+                card.className = 'card';
+                card.tabIndex = 0;
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-pressed', 'false');
+                card.setAttribute('aria-label', `Lihat detail ${product.name || ''}`);
+                card.innerHTML = `
+                    <img src="${product.image || ''}" alt="${escapeHTML(product.alt || '')}" loading="lazy" />
+                    <h2>${escapeHTML(product.name || '')}</h2>
+                    <p>${escapeHTML((product.description || '').split('\\n')[0])}</p>
+                `;
+                card.addEventListener('click', () => openProductDetail(product));
+                card.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openProductDetail(product);
+                    }
+                });
+                productGrid.appendChild(card);
+            });
+        }
 
-  modalCloseBtn.onclick = () => modalOverlay.classList.remove('show');
-  modalOverlay.addEventListener('click', (e) => {
-    if(e.target === modalOverlay) modalOverlay.classList.remove('show');
-  });
-  document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape' && modalOverlay.classList.contains('show')) {
-      modalOverlay.classList.remove('show');
-    }
-  });
+        // Open modal with product details
+        function openProductDetail(product) {
+            modalImage.src = product.image || '';
+            modalImage.alt = product.alt || '';
+            modalTitle.textContent = product.name || '';
+            modalDesc.textContent = (product.description || '') + "\n\nUntuk pemesanan, silakan klik tombol di bawah untuk menghubungi WhatsApp penjual.";
+            const msg = encodeURIComponent(`Halo, saya ingin memesan produk *${product.name}* dari RDW. Mohon info lebih lanjut.`);
+            orderBtn.onclick = () => {
+                window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank', 'noopener');
+            };
+            modalOverlay.classList.add('show');
+            modalCloseBtn.focus();
+        }
 
-  // Load and listen products from Firebase
-  function loadProducts() {
-    const productsRef = database.ref('products');
-    productsRef.on('value', snapshot => {
-      const productsObj = snapshot.val() || {};
-      allProducts = Object.values(productsObj);
-      filterAndRender(searchInput.value);
-    });
-  }
+        modalCloseBtn.onclick = () => modalOverlay.classList.remove('show');
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) modalOverlay.classList.remove('show');
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('show')) {
+                modalOverlay.classList.remove('show');
+            }
+        });
 
-  function filterAndRender(query) {
-    const normalized = query.trim().toLowerCase();
-    if(normalized === '') {
-      renderProducts(allProducts);
-    } else {
-      const filtered = allProducts.filter(p => {
-        return (p.name && p.name.toLowerCase().includes(normalized)) ||
-               (p.description && p.description.toLowerCase().includes(normalized));
-      });
-      renderProducts(filtered);
-    }
-  }
+        // Load and listen products from Firebase
+        function loadProducts() {
+            const productsRef = database.ref('products');
+            productsRef.on('value', snapshot => {
+                const productsObj = snapshot.val() || {};
+                allProducts = Object.values(productsObj);
+                filterAndRender(searchInput.value);
+            });
+        }
 
-  searchInput.addEventListener('input', e => {
-    filterAndRender(e.target.value);
-  });
+        function filterAndRender(query) {
+            const normalized = query.trim().toLowerCase();
+            if (normalized === '') {
+                renderProducts(allProducts);
+            } else {
+                const filtered = allProducts.filter(p => {
+                    return (p.name && p.name.toLowerCase().includes(normalized)) ||
+                           (p.description && p.description.toLowerCase().includes(normalized));
+                });
+                renderProducts(filtered);
+            }
+        }
 
-  // Increment visit counts
-  const visitRef = database.ref('stats/visits');
-  visitRef.transaction(current => (current || 0) + 1);
+        searchInput.addEventListener('input', e => {
+            filterAndRender(e.target.value);
+        });
 
-  loadProducts();
-</script>
+        // Increment visit counts
+        const visitRef = database.ref('stats/visits');
+        visitRef.transaction(current => (current || 0) + 1);
+
+        loadProducts();
+    </script>
 </body>
 </html>
